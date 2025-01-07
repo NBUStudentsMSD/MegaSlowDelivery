@@ -10,4 +10,6 @@ public class CourierAppApplication {
         SpringApplication.run(CourierAppApplication.class, args);
     }
 
+    // This is a test comment
+
 }
