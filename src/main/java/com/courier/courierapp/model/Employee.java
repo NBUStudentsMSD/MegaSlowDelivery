@@ -15,8 +15,9 @@ public class Employee {
     @JoinColumn(name = "user_id",nullable = false,unique=true)
     private Users user;
 
-
-   // private Office office;
+    @OneToOne
+    @JoinColumn(name = "office_id", nullable = false, unique = true)
+   private Office office;
 
 
     public Long getId() {
@@ -37,13 +38,13 @@ public class Employee {
         this.user = user;
     }
 
-//    public Office getOffice() {
-//        return office;
-//    }
-//
-//    public void setOffice(Office office) {
-//        this.office = office;
-//    }
+    public Office getOffice() {
+       return office;
+   }
+
+   public void setOffice(Office office) {
+       this.office = office;
+   }
 }
 
 
