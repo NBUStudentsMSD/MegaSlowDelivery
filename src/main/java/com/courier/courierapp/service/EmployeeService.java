@@ -34,6 +34,9 @@ public class EmployeeService {
 
     // Create a new employee
     public Employee createEmployee(Long userId,Long officeId) {
+        if(userId==null || officeId==null){
+            throw new RuntimeException("User ID and Office ID are required");
+        }
         // Fetch the User entity
         Users user = usersRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
