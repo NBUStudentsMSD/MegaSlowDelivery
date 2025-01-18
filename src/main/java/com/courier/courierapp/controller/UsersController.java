@@ -1,6 +1,6 @@
 package com.courier.courierapp.controller;
 
-import com.courier.courierapp.dto.CreateUserDTO;
+import com.courier.courierapp.dto.UserDTO;
 import com.courier.courierapp.model.Users;
 import com.courier.courierapp.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +31,13 @@ public class UsersController {
 
     // Create a new employee
     @PostMapping
-    public Users createUser(@RequestBody CreateUserDTO user) {
+    public Users createUser(@RequestBody UserDTO user) {
        return userService.createUser(user);
     }
 
     //Update a user
     @PutMapping("/{id}")
-    public Users updateUser(@PathVariable Long id, @RequestBody Users updatedUser) {
+    public Users updateUser(@PathVariable Long id, @RequestBody UserDTO updatedUser) {
         return userService.updateUser(id, updatedUser);
     }
 

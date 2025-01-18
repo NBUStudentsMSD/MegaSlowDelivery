@@ -1,6 +1,9 @@
 package com.courier.courierapp.service;
 
+import com.courier.courierapp.dto.OfficeDTO;
+import com.courier.courierapp.model.Company;
 import com.courier.courierapp.model.Office;
+import com.courier.courierapp.repository.CompanyRepository;
 import com.courier.courierapp.repository.OfficeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,8 @@ public class OfficeService {
 
     @Autowired
     private OfficeRepository officeRepository;
+    @Autowired
+    private CompanyRepository companyRepository;
 
     //get all offices
     public List<Office> getAllOffices() {
@@ -24,9 +29,18 @@ public class OfficeService {
     }
 
     //create a new office
-    public Office createOffice(Office office) {
-        return officeRepository.save(office);
-    }
+        public Office createOffice(OfficeDTO officeDTO) {
+            Company company = companyRepository.findById(officeDTO.getCompany_id())
+                    .orElseThrow(() -> new RuntimeException("Company not found"));
+
+            Office office = new Office();
+            office.setName(officeDTO.getName());
+            office.setAddress(officeDTO.getAddress());
+            office.setCompany(company);
+
+            return officeRepository.save(office);
+        }
+
 
     //update an office
     public Office updateOffice(Long id, Office updatedOffice) {

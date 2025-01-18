@@ -1,5 +1,6 @@
 package com.courier.courierapp.controller;
 
+import com.courier.courierapp.dto.OfficeDTO;
 import com.courier.courierapp.model.Office;
 import com.courier.courierapp.service.OfficeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class OfficeController {
 
     // Create a new office
     @PostMapping
-    public Office createOffice(@RequestBody Office office) {
+    public Office createOffice(@RequestBody OfficeDTO office) {
         return officeService.createOffice(office);
     }
 

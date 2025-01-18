@@ -1,5 +1,6 @@
 package com.courier.courierapp.service;
 
+import com.courier.courierapp.dto.EmployeeDTO;
 import com.courier.courierapp.model.*;
 import com.courier.courierapp.repository.CompanyRepository;
 import com.courier.courierapp.repository.EmployeeRepository;
@@ -35,22 +36,6 @@ public class EmployeeService {
         return employeeRepository.findById(id);
     }
 
-    // Create a new employee
-    public Employee createEmployee(Long userId,Long officeId) {
-        if(userId==null || officeId==null){
-            throw new RuntimeException("User ID and Office ID are required");
-        }
-        // Fetch the User entity
-        Users user = usersRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Fetch the Office entity
-        Office office = officeRepository.findById(officeId).orElseThrow(() -> new RuntimeException("Office not found"));
-
-        Employee employee=new Employee();
-        employee.setUser(user);
-        employee.setOffice(office);
-        return employeeRepository.save(employee);
-    }
 
     // Update an existing employee
     public Employee updateEmployee(Long id, Map<String, Long> updateData) {

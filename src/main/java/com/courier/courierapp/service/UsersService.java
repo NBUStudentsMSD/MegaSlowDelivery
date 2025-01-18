@@ -1,8 +1,7 @@
 package com.courier.courierapp.service;
 
-import com.courier.courierapp.dto.CreateUserDTO;
+import com.courier.courierapp.dto.UserDTO;
 import com.courier.courierapp.model.Company;
-import com.courier.courierapp.model.Role;
 import com.courier.courierapp.model.Users;
 import com.courier.courierapp.repository.CompanyRepository;
 import com.courier.courierapp.repository.UsersRepository;
@@ -29,22 +28,23 @@ public class UsersService {
     public Optional<Users> getUserById(Long id){
         return usersRepository.findById(id);
     }
-    public Users createUser(CreateUserDTO dto) {
-        Company company = companyRepository.findById(dto.getCompanyId())
-                .orElseThrow(() -> new RuntimeException("Company not found with ID: " + dto.getCompanyId()));
-
+    public Users createUser(UserDTO dto) {
+        Company company = companyRepository.findById(dto.getCompany_id())
+                .orElseThrow(() -> new RuntimeException("Company not found with ID: " + dto.getCompany_id()));
         Users user = new Users();
         user.setUsername(dto.getUsername());
         user.setPassword(dto.getPassword());
-        user.setRole(Role.valueOf(dto.getRole()));
+        user.setRole(dto.getRole());
         user.setCompany(company);
 
         return usersRepository.save(user);
     }
 
     //update an existing user
-    public Users updateUser(Long id, Users updatedUser) {
+    public Users updateUser(Long id, UserDTO updatedUser) {
         return usersRepository.findById(id).map(user -> {
+            Company company = companyRepository.findById(updatedUser.getCompany_id())
+                    .orElseThrow(() -> new RuntimeException("Company not found with ID: " + updatedUser.getCompany_id()));
             user.setUsername(updatedUser.getUsername());
             user.setPassword(updatedUser.getPassword());
             user.setRole(updatedUser.getRole());
