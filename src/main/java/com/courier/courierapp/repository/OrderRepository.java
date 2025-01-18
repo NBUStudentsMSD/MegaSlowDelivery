@@ -11,4 +11,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     // Custom query to find orders by status
     List<Order> findByStatus(String status);
+    List<Order> findByCompanyId(Long companyId);
 }

@@ -44,6 +44,10 @@ public class OrderService {
             return orderRepository.save(order);
         }).orElse(null);
     }
+    public List<Order> getOrdersByCompany(Long companyId) {
+        return orderRepository.findByCompanyId(companyId);
+    }
+
 
     // Delete an order
     public void deleteOrder(Long id) {

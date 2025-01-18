@@ -44,6 +44,12 @@ public class OrderController {
     public Order updateOrder(@PathVariable Long id, @RequestBody Order order) {
         return orderService.updateOrder(id, order);
     }
+    // Get orders by company
+    @GetMapping("/company/{companyId}")
+    public List<Order> getOrdersByCompany(@PathVariable Long companyId) {
+        return orderService.getOrdersByCompany(companyId);
+    }
+
 
     // Delete an order
     @DeleteMapping("/{id}")

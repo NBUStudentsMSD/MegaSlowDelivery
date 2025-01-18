@@ -1,6 +1,10 @@
 package com.courier.courierapp.service;
 
+import com.courier.courierapp.dto.CreateUserDTO;
+import com.courier.courierapp.model.Company;
+import com.courier.courierapp.model.Role;
 import com.courier.courierapp.model.Users;
+import com.courier.courierapp.repository.CompanyRepository;
 import com.courier.courierapp.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,8 @@ public class UsersService {
 
     @Autowired
     private UsersRepository usersRepository;
+    @Autowired
+    CompanyRepository companyRepository;
 
     //Get all existing users
     public List<Users> getAllUsers(){
@@ -23,8 +29,16 @@ public class UsersService {
     public Optional<Users> getUserById(Long id){
         return usersRepository.findById(id);
     }
-    //create new user
-    public Users createUser(Users user) {
+    public Users createUser(CreateUserDTO dto) {
+        Company company = companyRepository.findById(dto.getCompanyId())
+                .orElseThrow(() -> new RuntimeException("Company not found with ID: " + dto.getCompanyId()));
+
+        Users user = new Users();
+        user.setUsername(dto.getUsername());
+        user.setPassword(dto.getPassword());
+        user.setRole(Role.valueOf(dto.getRole()));
+        user.setCompany(company);
+
         return usersRepository.save(user);
     }
 
@@ -36,6 +50,9 @@ public class UsersService {
             user.setRole(updatedUser.getRole());
             return usersRepository.save(user);
         }).orElse(null);
+    }
+    public List<Users> getUsersByCompany(Long companyId) {
+        return usersRepository.findByCompanyId(companyId);
     }
 
     //delete a user

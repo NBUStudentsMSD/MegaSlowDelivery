@@ -34,11 +34,11 @@ public class EmployeeController {
 
     // Create a new employee
     @PostMapping
-
-    public Employee createEmployee(@RequestBody Map<String,Long> requestData) {
+    public Employee createEmployee(@RequestBody Map<String, Long> requestData) {
         Long userId = requestData.get("user_id");
         Long officeId = requestData.get("office_id");
-        return employeeService.createEmployee(userId,officeId);
+        Long companyId = requestData.get("company_id");
+        return employeeService.createEmployee(userId, officeId, companyId);
     }
 
     // Update an employee
@@ -100,6 +100,10 @@ public class EmployeeController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    @GetMapping("/company/{companyId}")
+    public List<Employee> getEmployeesByCompany(@PathVariable Long companyId) {
+        return employeeService.getEmployeesByCompany(companyId);
     }
 
     // Delete an employee

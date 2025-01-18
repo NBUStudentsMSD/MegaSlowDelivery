@@ -68,8 +68,10 @@ public class OfficeController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
+    @GetMapping("/company/{companyId}")
+    public List<Office> getOfficesByCompany(@PathVariable Long companyId) {
+        return officeService.getOfficesByCompany(companyId);
+    }
     //delete ex.office
     @DeleteMapping("/{id}")
     public void deleteOffice(@PathVariable Long id) {

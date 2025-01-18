@@ -53,10 +53,9 @@ public class OfficeService {
             return officeRepository.save(office); // Save updated office
         }).orElse(null); // Return null if office not found
     }
-
-
-
-
+    public List<Office> getOfficesByCompany(Long companyId) {
+        return officeRepository.findByCompanyId(companyId);
+    }
 
     //delete an office
     public void deleteOffice(Long id) {

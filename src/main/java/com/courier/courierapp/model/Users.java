@@ -20,13 +20,15 @@ public class Users {
 
     private String password;
 
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
     @CreatedDate
     private Date created_at;
-
 
     @LastModifiedDate
     private Date updated_at;
@@ -78,4 +80,15 @@ public class Users {
     public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
     }
+
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+
 }
