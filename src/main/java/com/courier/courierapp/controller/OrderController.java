@@ -1,5 +1,6 @@
 package com.courier.courierapp.controller;
 
+import com.courier.courierapp.dto.OrderDTO;
 import com.courier.courierapp.model.Order;
 import com.courier.courierapp.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class OrderController {
 
     // Create a new order
     @PostMapping
-    public Order createOrder(@RequestBody Order order) {
+    public Order createOrder(@RequestBody OrderDTO order) {
         return orderService.createOrder(order);
     }
 

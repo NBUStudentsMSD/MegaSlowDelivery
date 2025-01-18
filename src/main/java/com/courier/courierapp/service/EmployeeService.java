@@ -6,7 +6,6 @@ import com.courier.courierapp.repository.CompanyRepository;
 import com.courier.courierapp.repository.EmployeeRepository;
 import com.courier.courierapp.repository.OfficeRepository;
 import com.courier.courierapp.repository.UsersRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -96,10 +95,10 @@ public class EmployeeService {
         return employeeRepository.findByCompanyId(companyId);
     }
 
-    public Employee createEmployee(Long userId, Long officeId, Long companyId) {
-        Users user = usersRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        Office office = officeRepository.findById(officeId).orElseThrow(() -> new RuntimeException("Office not found"));
-        Company company = companyRepository.findById(companyId).orElseThrow(() -> new RuntimeException("Company not found"));
+    public Employee createEmployee(EmployeeDTO employeeDTO) {
+        Users user = usersRepository.findById(employeeDTO.getUser_id()).orElseThrow(() -> new RuntimeException("User not found"));
+        Office office = officeRepository.findById(employeeDTO.getOffice_id()).orElseThrow(() -> new RuntimeException("Office not found"));
+        Company company = companyRepository.findById(employeeDTO.getCompany_id()).orElseThrow(() -> new RuntimeException("Company not found"));
 
         Employee employee = new Employee();
         employee.setUser(user);

@@ -2,8 +2,8 @@ package com.courier.courierapp.dto;
 
 public class EmployeeDTO {
     private Long id;
-    private Long userId;
-    private Long officeId;
+    private Long user_id;
+    private Long office_id;
     private Long company_id;
 
     // Getters and setters
@@ -16,20 +16,20 @@ public class EmployeeDTO {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
-    public Long getOfficeId() {
-        return officeId;
+    public Long getOffice_id() {
+        return office_id;
     }
 
-    public void setOfficeId(Long officeId) {
-        this.officeId = officeId;
+    public void setOffice_id(Long office_id) {
+        this.office_id = office_id;
     }
 
     public Long getCompany_id() {
