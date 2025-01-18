@@ -37,6 +37,27 @@ public class OfficeService {
         }).orElse(null);
     }
 
+
+    //update office name
+    public Office updateOfficeName(Long id, String name) {
+        return officeRepository.findById(id).map(office -> {
+            office.setName(name); // Update name
+            return officeRepository.save(office); // Save updated office
+        }).orElse(null); // Return null if office not found
+    }
+
+    //update office address
+    public Office updateOfficeAddress(Long id, String address) {
+        return officeRepository.findById(id).map(office -> {
+            office.setAddress(address); // Update address
+            return officeRepository.save(office); // Save updated office
+        }).orElse(null); // Return null if office not found
+    }
+
+
+
+
+
     //delete an office
     public void deleteOffice(Long id) {
         officeRepository.deleteById(id);
