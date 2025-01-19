@@ -1,5 +1,6 @@
 package com.courier.courierapp.controller;
 
+import com.courier.courierapp.dto.PackageDTO;
 import com.courier.courierapp.model.Package;
 import com.courier.courierapp.service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,12 @@ public class PackageController {
     }
 
     @PostMapping
-    public Package createPackage(@RequestBody Package pack) {
+    public Package createPackage(@RequestBody PackageDTO pack) {
         return packageService.createPackage(pack);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Package> updatePackage(@PathVariable Long id, @RequestBody Package packageDetails) {
+    public ResponseEntity<Package> updatePackage(@PathVariable Long id, @RequestBody PackageDTO packageDetails) {
         try {
             return ResponseEntity.ok(packageService.updatePackage(id, packageDetails));
         } catch (RuntimeException e) {
