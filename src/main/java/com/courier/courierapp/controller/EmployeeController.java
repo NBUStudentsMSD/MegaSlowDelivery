@@ -1,5 +1,6 @@
 package com.courier.courierapp.controller;
 
+import com.courier.courierapp.dto.EmployeeDTO;
 import com.courier.courierapp.model.Employee;
 import com.courier.courierapp.repository.OfficeRepository;
 import com.courier.courierapp.repository.UsersRepository;
@@ -34,11 +35,8 @@ public class EmployeeController {
 
     // Create a new employee
     @PostMapping
-
-    public Employee createEmployee(@RequestBody Map<String,Long> requestData) {
-        Long userId = requestData.get("user_id");
-        Long officeId = requestData.get("office_id");
-        return employeeService.createEmployee(userId,officeId);
+    public Employee createEmployee(@RequestBody EmployeeDTO employee) {
+        return employeeService.createEmployee(employee);
     }
 
     // Update an employee
@@ -100,6 +98,10 @@ public class EmployeeController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    @GetMapping("/company/{companyId}")
+    public List<Employee> getEmployeesByCompany(@PathVariable Long companyId) {
+        return employeeService.getEmployeesByCompany(companyId);
     }
 
     // Delete an employee

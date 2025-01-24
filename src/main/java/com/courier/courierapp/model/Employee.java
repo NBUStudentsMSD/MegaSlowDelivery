@@ -10,7 +10,6 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @OneToOne
     @JoinColumn(name = "user_id",nullable = false,unique=true)
     private Users user;
@@ -19,6 +18,9 @@ public class Employee {
     @JoinColumn(name = "office_id", nullable = false, unique = true)
    private Office office;
 
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
 
     public Long getId() {
         return id;
@@ -41,6 +43,14 @@ public class Employee {
     public Office getOffice() {
        return office;
    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
 
    public void setOffice(Office office) {
        this.office = office;

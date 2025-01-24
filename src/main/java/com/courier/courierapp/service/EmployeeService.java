@@ -1,13 +1,11 @@
 package com.courier.courierapp.service;
 
-import com.courier.courierapp.model.Employee;
-import com.courier.courierapp.model.Office;
-import com.courier.courierapp.model.Role;
+import com.courier.courierapp.dto.EmployeeDTO;
+import com.courier.courierapp.model.*;
+import com.courier.courierapp.repository.CompanyRepository;
 import com.courier.courierapp.repository.EmployeeRepository;
 import com.courier.courierapp.repository.OfficeRepository;
 import com.courier.courierapp.repository.UsersRepository;
-import com.courier.courierapp.model.Users;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +22,8 @@ public class EmployeeService {
     private OfficeRepository officeRepository;
     @Autowired
     private UsersRepository usersRepository;
+    @Autowired
+    private CompanyRepository companyRepository;
 
     // Get all employees
     public List<Employee> getAllEmployees() {
@@ -35,22 +35,6 @@ public class EmployeeService {
         return employeeRepository.findById(id);
     }
 
-    // Create a new employee
-    public Employee createEmployee(Long userId,Long officeId) {
-        if(userId==null || officeId==null){
-            throw new RuntimeException("User ID and Office ID are required");
-        }
-        // Fetch the User entity
-        Users user = usersRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Fetch the Office entity
-        Office office = officeRepository.findById(officeId).orElseThrow(() -> new RuntimeException("Office not found"));
-
-        Employee employee=new Employee();
-        employee.setUser(user);
-        employee.setOffice(office);
-        return employeeRepository.save(employee);
-    }
 
     // Update an existing employee
     public Employee updateEmployee(Long id, Map<String, Long> updateData) {
@@ -106,6 +90,23 @@ public class EmployeeService {
             return employeeRepository.save(employee);
         }).orElse(null); // Return null if the employee is not found
     }
+
+    public List<Employee> getEmployeesByCompany(Long companyId) {
+        return employeeRepository.findByCompanyId(companyId);
+    }
+
+    public Employee createEmployee(EmployeeDTO employeeDTO) {
+        Users user = usersRepository.findById(employeeDTO.getUser_id()).orElseThrow(() -> new RuntimeException("User not found"));
+        Office office = officeRepository.findById(employeeDTO.getOffice_id()).orElseThrow(() -> new RuntimeException("Office not found"));
+        Company company = companyRepository.findById(employeeDTO.getCompany_id()).orElseThrow(() -> new RuntimeException("Company not found"));
+
+        Employee employee = new Employee();
+        employee.setUser(user);
+        employee.setOffice(office);
+        employee.setCompany(company);
+        return employeeRepository.save(employee);
+    }
+
 
 
 

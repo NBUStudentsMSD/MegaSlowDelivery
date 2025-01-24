@@ -1,11 +1,8 @@
 package com.courier.courierapp.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 
-import jakarta.persistence.Table;
 import org.springframework.data.annotation.Id;
 
 import java.util.Date;
@@ -28,10 +25,13 @@ public class Order {
     private String status;
     
     private String orderType;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
+
     public String getOrderType() {
         return orderType;
-    
     }
     
     public void setOrderType(String orderType) {
@@ -80,5 +80,11 @@ public class Order {
         this.status = status;
     }
 
+    public Company getCompany() {
+        return company;
+    }
 
+    public void setCompany(Company company) {
+        this.company = company;
+    }
 }
