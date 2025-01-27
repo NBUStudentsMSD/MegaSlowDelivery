@@ -76,6 +76,8 @@ public class PackageDTO {
             this.weight = weight;
         }
 
+
+
         public BigDecimal getPrice() {
             return price;
         }
