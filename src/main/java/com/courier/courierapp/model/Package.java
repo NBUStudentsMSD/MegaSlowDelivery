@@ -31,6 +31,9 @@ public class Package {
     @Column(nullable = false)
     private double weight;
 
+    @Column(nullable = false, name = "delivery_fee")
+    private BigDecimal deliveryFee;
+
     @Column(nullable = false)
     private BigDecimal price;
 
@@ -107,6 +110,14 @@ public class Package {
         this.weight = weight;
     }
 
+    public BigDecimal getDeliveryFee() {
+        return deliveryFee;
+    }
+
+    public void setDeliveryFee(BigDecimal deliveryFee) {
+        this.deliveryFee = deliveryFee;
+    }
+
     public BigDecimal getPrice() {
         return price;
     }
@@ -139,3 +150,5 @@ public class Package {
         this.company = company;
     }
 }
+
+
