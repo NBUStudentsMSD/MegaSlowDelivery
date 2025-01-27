@@ -51,9 +51,11 @@ public class PackageService {
         pack.setStatus(packageDTO.getStatus());
         pack.setCompany(company);
 
-        revenueService.createRevenue(pack);
+        Package savedPackage = packageRepository.save(pack);
 
-        return packageRepository.save(pack);
+        revenueService.createRevenue(savedPackage);
+
+        return savedPackage;
     }
 
     public Package updatePackage(Long id, PackageDTO packageDTO) {
@@ -74,9 +76,12 @@ public class PackageService {
             pack.setDeliveryFee(calculateDeliveryFee(packageDTO.getWeight(), packageDTO.getDeliveryType()));
             pack.setStatus(packageDTO.getStatus());
             pack.setCompany(company);
-            //revenueService.updateRevenue(pack);
 
-            return packageRepository.save(pack);
+            Package updatedPackage = packageRepository.save(pack);
+
+            revenueService.updateRevenue(updatedPackage);
+
+            return updatedPackage;
         }).orElseThrow(() -> new RuntimeException("Package not found with id " + id));
     }
 private BigDecimal calculateDeliveryFee(double weight, DeliveryType deliveryType) {

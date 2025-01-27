@@ -1,6 +1,5 @@
 package com.courier.courierapp.model;
 
-import com.courier.courierapp.model.Company;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,6 +15,10 @@ public class Revenue {
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
+
+    @ManyToOne
+    @JoinColumn(name = "package_id", nullable = false)
+    private Package pack;
 
     @Column(nullable = false)
     private BigDecimal amount;
@@ -56,6 +59,14 @@ public class Revenue {
         this.company = company;
     }
 
+    public Package getPack() {
+        return pack;
+    }
+
+    public void setPack(Package pack) {
+        this.pack = pack;
+    }
+
     public BigDecimal getAmount() {
         return amount;
     }
@@ -88,6 +99,3 @@ public class Revenue {
         this.updatedAt = updatedAt;
     }
 }
-
-
-

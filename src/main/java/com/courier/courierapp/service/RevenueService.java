@@ -52,27 +52,29 @@ public class RevenueService {
         revenue.setAmount(pack.getDeliveryFee());
         revenue.setRecordDate(LocalDate.now());
         revenue.setCompany(company);
+        revenue.setPack(pack);
 
         revenueRepository.save(revenue);
 
     }
 
-//    public Revenue updateRevenue(Package pack) {
-//        Revenue revenue = revenueRepository.findByPackageId(pack.getId()).get(0);
-//
-//
-//            // Fetch the associated company
-//            Company company = pack.getCompany();
-//            // Update entity fields
-//            BigDecimal calculatedAmount = pack.getDeliveryFee();
-//            revenue.setAmount(calculatedAmount);
-//            revenue.setRecordDate(LocalDate.now());
-//            revenue.setCompany(company);
-//
-//
-//            return revenueRepository.save(revenue);
-//
-//    }
+    public Revenue updateRevenue(Package pack) {
+        // Fetch the existing revenue record
+        List<Revenue> revenues = revenueRepository.findByPackId(pack.getId());
+        if (revenues.isEmpty()) {
+            throw new RuntimeException("Revenue not found for Package with ID: " + pack.getId());
+        }
+
+        Revenue revenue = revenues.get(0);
+
+        // Update revenue fields
+        revenue.setAmount(pack.getDeliveryFee());
+        revenue.setRecordDate(LocalDate.now());
+        revenue.setCompany(pack.getCompany());
+
+        return revenueRepository.save(revenue);
+    }
+
 
     public void deleteRevenue(Long id) {
         revenueRepository.deleteById(id);

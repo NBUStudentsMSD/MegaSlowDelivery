@@ -8,6 +8,7 @@ import java.util.List;
 
 @Repository
 public interface RevenueRepository extends JpaRepository<Revenue, Long> {
-    List<Revenue> findByPackageId(Long packageId);
+    List<Revenue> findByPackId(Long packageId);
+
 }
 
