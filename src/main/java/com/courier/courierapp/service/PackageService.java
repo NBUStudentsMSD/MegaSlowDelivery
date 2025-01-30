@@ -29,6 +29,11 @@ public class PackageService {
         return packageRepository.findAll();
     }
 
+    // New method to get all packages for a specific client
+    public List<Package> getAllPackagesForClient(Long userId) {
+        return packageRepository.findBySenderIdOrRecipientId(userId, userId);
+    }
+
     public Optional<Package> getPackageById(Long id) {
         return packageRepository.findById(id);
     }
