@@ -2,9 +2,13 @@ package com.courier.courierapp.controller;
 
 import com.courier.courierapp.dto.PackageDTO;
 import com.courier.courierapp.model.Package;
+import com.courier.courierapp.model.Role;
+import com.courier.courierapp.model.Users;
 import com.courier.courierapp.service.PackageService;
+import com.courier.courierapp.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,9 +20,25 @@ public class PackageController {
     @Autowired
     private PackageService packageService;
 
+    @Autowired
+    private UsersRepository usersRepository;
+
     @GetMapping
     public List<Package> getAllPackages() {
-        return packageService.getAllPackages();
+        // Намираме username от SecurityContext
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // Търсим в базата съответния Users
+        Users currentUser = usersRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found: " + username));
+
+        // Ако е EMPLOYEE -> всички пакети
+        if (currentUser.getRole() == Role.EMPLOYEE) {
+            return packageService.getAllPackages();
+        } else {
+            // Ако е CLIENT -> само собствените пакети
+            return packageService.getAllPackagesForClient(currentUser.getId());
+        }
     }
 
     @GetMapping("/{id}")
@@ -45,8 +65,5 @@ public class PackageController {
     @DeleteMapping("/{id}")
     public void deletePackage(@PathVariable Long id) {
         packageService.deletePackage(id);
-
-
     }
 }
-

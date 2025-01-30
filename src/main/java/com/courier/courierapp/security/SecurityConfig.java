@@ -3,6 +3,7 @@ package com.courier.courierapp.security;
 import com.courier.courierapp.service.UsersService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -53,6 +54,8 @@ public class SecurityConfig {
                     auth.requestMatchers("/api/auth/register").permitAll();
                     auth.requestMatchers("/api/auth/login").permitAll();
                     auth.requestMatchers("/api/auth/logout").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/api/packages").hasRole("EMPLOYEE");
+                    auth.requestMatchers(HttpMethod.PUT, "/api/packages").hasRole("EMPLOYEE");
 
                     auth.anyRequest().authenticated();
                 })
