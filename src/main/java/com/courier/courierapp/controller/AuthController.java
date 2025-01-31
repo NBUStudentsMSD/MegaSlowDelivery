@@ -5,6 +5,7 @@ import com.courier.courierapp.model.Users;
 import com.courier.courierapp.security.JwtUtils;
 import com.courier.courierapp.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,15 +26,22 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
-        // Хешираме паролата
+        // Hash the password
         String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
         userDTO.setPassword(encodedPassword);
 
-        // Използваме UsersService да създадем нов User в DB
-        Users newUser = usersService.createUser(userDTO);
+        // Create a new user in the DB
+        try {
+            Users newUser = usersService.createUser(userDTO);
+            // Generate a JWT token for the new user
+            String token = jwtUtils.generateToken(newUser.getUsername());
 
-        return ResponseEntity.ok("User registered successfully!");
+            return ResponseEntity.ok("User registered successfully! Bearer " + token);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating user: " + e.getMessage());
+        }
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody UserDTO userDTO) {

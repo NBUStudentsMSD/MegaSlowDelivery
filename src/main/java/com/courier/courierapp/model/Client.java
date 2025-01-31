@@ -14,7 +14,18 @@ public class Client {
     @JoinColumn(name = "user_id", nullable = false)
     private Users user;
 
+    @ManyToOne
+    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
+    private Company company; // Make sure to map the company properly
     // Constructors, Getters, Setters
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
 
     public Client() {
     }

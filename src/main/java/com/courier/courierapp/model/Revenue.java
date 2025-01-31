@@ -12,9 +12,8 @@ public class Revenue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
-    private Company company;
+    private Long company_id;
 
     @ManyToOne
     @JoinColumn(name = "package_id", nullable = false)
@@ -51,14 +50,13 @@ public class Revenue {
         this.id = id;
     }
 
-    public Company getCompany() {
-        return company;
+    public Long getCompany_id() {
+        return company_id;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setCompany_id(Long company_id) {
+        this.company_id = company_id;
     }
-
     public Package getPack() {
         return pack;
     }

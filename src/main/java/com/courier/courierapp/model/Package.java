@@ -31,8 +31,6 @@ public class Package {
     @Column(nullable = false)
     private double weight;
 
-    @Column(nullable = false, name = "delivery_fee")
-    private BigDecimal deliveryFee;
 
     @Column(nullable = false)
     private BigDecimal price;
@@ -44,9 +42,11 @@ public class Package {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id", nullable = false)
-    private Company company;
+    @Column(name = "company_id", nullable = false)
+    private Long companyId;
+
+    @JoinColumn(name = "delivery_fee_id", nullable = false)
+    private Long  deliveryFeeId;
 
     @PrePersist
     protected void onCreate() {
@@ -110,13 +110,7 @@ public class Package {
         this.weight = weight;
     }
 
-    public BigDecimal getDeliveryFee() {
-        return deliveryFee;
-    }
 
-    public void setDeliveryFee(BigDecimal deliveryFee) {
-        this.deliveryFee = deliveryFee;
-    }
 
     public BigDecimal getPrice() {
         return price;
@@ -134,6 +128,14 @@ public class Package {
         this.status = status;
     }
 
+    public Long getDeliveryFeeId() {
+     return deliveryFeeId;
+    }
+
+    public void setDeliveryFee(Long deliveryFeeId) {
+        this.deliveryFeeId = deliveryFeeId;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -142,12 +144,12 @@ public class Package {
         this.createdAt = createdAt;
     }
 
-    public Company getCompany() {
-        return company;
+    public Long getCompanyId() {
+        return companyId;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 }
 
