@@ -11,9 +11,9 @@ public class DeliveryFee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+
     @JoinColumn(name = "company_id", nullable = false)
-    private Company company;
+    private Long companyId;
 
     @Column(name= "price_per_kg" ,nullable = false)
     private double weightPerKg;
@@ -27,8 +27,9 @@ public class DeliveryFee {
     // Constructors
     public DeliveryFee() {}
 
-    public DeliveryFee(Company company, double weightPerKg, BigDecimal pricePerKgOffice, BigDecimal pricePerKgAddress) {
-        this.company = company;
+    public DeliveryFee(Long id, Long companyId, double weightPerKg, BigDecimal pricePerKgOffice, BigDecimal pricePerKgAddress) {
+        this.id = id;
+       this.companyId = companyId;
         this.weightPerKg = weightPerKg;
         this.pricePerKgOffice = pricePerKgOffice;
         this.pricePerKgAddress = pricePerKgAddress;
@@ -43,12 +44,12 @@ public class DeliveryFee {
         this.id = id;
     }
 
-    public Company getCompany() {
-        return company;
+    public Long getCompany_id() {
+        return companyId;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setCompany_id(Long companyId) {
+        this.companyId = companyId;
     }
 
     public double getWeightPerKg() {

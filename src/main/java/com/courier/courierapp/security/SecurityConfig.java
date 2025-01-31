@@ -26,6 +26,8 @@ public class SecurityConfig {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
     }
 
+
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -54,6 +56,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/api/auth/register").permitAll();
                     auth.requestMatchers("/api/auth/login").permitAll();
                     auth.requestMatchers("/api/auth/logout").permitAll();
+                    auth.requestMatchers("/api/offices").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/api/packages").hasRole("EMPLOYEE");
                     auth.requestMatchers(HttpMethod.PUT, "/api/packages").hasRole("EMPLOYEE");
 

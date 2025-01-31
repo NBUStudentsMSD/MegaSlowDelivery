@@ -58,7 +58,7 @@ public class RevenueService {
         Revenue revenue = new Revenue();
         revenue.setAmount(pack.getPrice()); // ✅ Use correct price from package
         revenue.setRecordDate(LocalDate.now());
-        revenue.setCompany(pack.getCompany());
+        revenue.setCompany_id(pack.getCompanyId());
         revenue.setPack(pack);
         revenueRepository.save(revenue);
     }
@@ -76,8 +76,7 @@ public class RevenueService {
         // Update revenue fields
         revenue.setAmount(pack.getPrice());
         revenue.setRecordDate(LocalDate.now());
-        revenue.setCompany(pack.getCompany());
-
+        revenue.setCompany_id(pack.getCompanyId());
         return revenueRepository.save(revenue);
     }
 

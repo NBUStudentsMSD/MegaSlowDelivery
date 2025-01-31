@@ -18,6 +18,7 @@ public class UserDTO implements java.io.Serializable {
     private Role role;
 
     private Long company_id;
+    private Long office_id;
 
     public String getUsername() {
         return username;
@@ -49,5 +50,9 @@ public class UserDTO implements java.io.Serializable {
 
     public void setCompany_id(Long company_id) {
         this.company_id = company_id;
+    }
+
+    public Long getOffice_id() {
+        return office_id;
     }
 }

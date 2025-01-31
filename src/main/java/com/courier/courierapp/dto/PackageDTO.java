@@ -18,13 +18,22 @@ public class PackageDTO {
         private PackageStatus status;
         private LocalDateTime createdAt;
         private Long company_id; // Explicitly named as company_id
+    private Long deliveryFeeId;  // Add this field in PackageDTO
 
         // Getters and Setters
         public Long getId() {
             return id;
         }
 
-        public void setId(Long id) {
+    public Long getDeliveryFeeId() {
+        return deliveryFeeId;
+    }
+
+    public void setDeliveryFeeId(Long deliveryFeeId) {
+        this.deliveryFeeId = deliveryFeeId;
+    }
+
+    public void setId(Long id) {
             this.id = id;
         }
 

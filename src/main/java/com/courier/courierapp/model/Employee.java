@@ -15,7 +15,7 @@ public class Employee {
     private Users user;
 
     @ManyToOne
-    @JoinColumn(name = "office_id", nullable = false, unique = true)
+    @JoinColumn(name = "office_id", nullable = false)
    private Office office;
 
     @ManyToOne
