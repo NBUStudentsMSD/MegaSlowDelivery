@@ -4,6 +4,7 @@ import com.courier.courierapp.model.Company;
 import com.courier.courierapp.model.Revenue;
 import com.courier.courierapp.model.Package;
 import com.courier.courierapp.repository.CompanyRepository;
+import com.courier.courierapp.repository.DeliveryFeeRepository;
 import com.courier.courierapp.repository.PackageRepository;
 import com.courier.courierapp.repository.RevenueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,16 @@ import java.util.List;
 @Service
 public class RevenueService {
     @Autowired
-    private final RevenueRepository revenueRepository;
+    private  RevenueRepository revenueRepository;
 
     @Autowired
     CompanyRepository companyRepository;
 
     @Autowired
-    private final PackageRepository packageRepository; // Предполага се, че имаш repository за пакети.
+    private  PackageRepository packageRepository; // Предполага се, че имаш repository за пакети.
+
+    @Autowired
+    private DeliveryFeeRepository deliveryFeeRepository;
 
     public RevenueService(RevenueRepository revenueRepository, PackageRepository packageRepository) {
         this.revenueRepository = revenueRepository;
@@ -44,19 +48,21 @@ public class RevenueService {
 
 
     public void createRevenue(Package pack) {
-        Company company = pack.getCompany();
+        // Check if revenue already exists for this package
+        List<Revenue> existingRevenues = revenueRepository.findByPackId(pack.getId());
+
+        if (!existingRevenues.isEmpty()) {
+            return; // Avoid duplicate revenue entries
+        }
 
         Revenue revenue = new Revenue();
-
-
-        revenue.setAmount(pack.getDeliveryFee());
+        revenue.setAmount(pack.getPrice()); // ✅ Use correct price from package
         revenue.setRecordDate(LocalDate.now());
-        revenue.setCompany(company);
+        revenue.setCompany(pack.getCompany());
         revenue.setPack(pack);
-
         revenueRepository.save(revenue);
-
     }
+
 
     public Revenue updateRevenue(Package pack) {
         // Fetch the existing revenue record
@@ -68,7 +74,7 @@ public class RevenueService {
         Revenue revenue = revenues.get(0);
 
         // Update revenue fields
-        revenue.setAmount(pack.getDeliveryFee());
+        revenue.setAmount(pack.getPrice());
         revenue.setRecordDate(LocalDate.now());
         revenue.setCompany(pack.getCompany());
 
