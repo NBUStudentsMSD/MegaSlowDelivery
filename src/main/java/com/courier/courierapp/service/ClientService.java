@@ -60,6 +60,15 @@ public class ClientService {
 
     // Изтриване на клиент
     public void deleteClient(Long id) {
+        Client client = clientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Client not found with ID: " + id));
+
+        Long userId = client.getUser().getId();
+
+        // Изтриваме първо client
         clientRepository.deleteById(id);
+
+        // Изтриваме свързания users ред
+        usersRepository.deleteById(userId);
     }
 }
