@@ -48,6 +48,12 @@ public class PackageController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/companypackages")
+    public List<Package> getAllPackagesForEmployeeCompany() {
+        return packageService.getAllPackagesByCompanyForEmployee();
+    }
+
+
     @PostMapping
     public Package createPackage(@RequestBody PackageDTO pack) {
         return packageService.createPackage(pack);

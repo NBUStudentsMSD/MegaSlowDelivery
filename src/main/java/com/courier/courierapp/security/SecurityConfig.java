@@ -57,6 +57,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/api/auth/login").permitAll();
                     auth.requestMatchers("/api/auth/logout").permitAll();
                     auth.requestMatchers("/api/offices").permitAll();
+                    auth.requestMatchers("/api/companies").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/api/packages").hasRole("EMPLOYEE");
                     auth.requestMatchers(HttpMethod.PUT, "/api/packages").hasRole("EMPLOYEE");
 
