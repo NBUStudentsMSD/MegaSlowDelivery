@@ -1,14 +1,15 @@
 package com.courier.courierapp.service;
 
 import com.courier.courierapp.dto.PackageDTO;
-import com.courier.courierapp.model.Company;
-import com.courier.courierapp.model.DeliveryFee;
-import com.courier.courierapp.model.DeliveryType;
+import com.courier.courierapp.model.*;
 import com.courier.courierapp.model.Package;
 import com.courier.courierapp.repository.CompanyRepository;
 import com.courier.courierapp.repository.DeliveryFeeRepository;  // Ensure this is injected
 import com.courier.courierapp.repository.PackageRepository;
+import com.courier.courierapp.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,6 +29,8 @@ public class PackageService {
     private DeliveryFeeRepository deliveryFeeRepository;  // Inject DeliveryFeeRepository
 
     @Autowired
+    private UsersRepository usersRepository;
+    @Autowired
     private RevenueService revenueService;
 
     public List<Package> getAllPackages() {
@@ -41,6 +44,29 @@ public class PackageService {
     public Optional<Package> getPackageById(Long id) {
         return packageRepository.findById(id);
     }
+
+    public List<Package> getAllPackagesByCompanyForEmployee() {
+        // Get the currently logged-in employee
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); // Get the logged-in user's username
+
+        // Find the employee by username
+        Users employee = usersRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Employee not found: " + username));
+
+        // Ensure the user is an EMPLOYEE
+        if (!employee.getRole().equals(Role.EMPLOYEE)) {
+            throw new RuntimeException("Access denied: Only employees can view company packages.");
+        }
+
+        // Get the employee's company ID
+        Long companyId = employee.getCompany().getId();
+
+        // Fetch all packages for this company
+        return packageRepository.findByCompanyId(companyId);
+    }
+
+
 
     public Package createPackage(PackageDTO packageDTO) {
         // Fetch the associated company

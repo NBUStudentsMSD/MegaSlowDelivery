@@ -3,11 +3,16 @@ package com.courier.courierapp.service;
 import com.courier.courierapp.dto.EmployeePerformanceDTO;
 import com.courier.courierapp.model.Employee;
 import com.courier.courierapp.model.Package;
+import com.courier.courierapp.model.PackageStatus;
 import com.courier.courierapp.repository.EmployeeRepository;
 import com.courier.courierapp.repository.PackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,5 +57,23 @@ public class ReportsService {
         }
 
         return results;
+    }
+
+    public List<Package> getUnreceivedPackages() {
+        return packageRepository.findByStatus(PackageStatus.SENT);
+    }
+
+    public BigDecimal getCompanyRevenue(Long companyId, LocalDate startDate, LocalDate endDate) {
+        LocalDateTime startDateTime = startDate.atStartOfDay();
+        LocalDateTime endDateTime = endDate.atTime(LocalTime.MAX);
+
+        // Fetch all matching packages
+        List<Package> packages = packageRepository.findByCompanyIdAndCreatedAtBetween(companyId, startDateTime, endDateTime);
+
+        // Sum up the revenue
+        return packages.stream()
+                .map(Package::getPrice) // Extract price
+                .filter(price -> price != null) // Avoid null values
+                .reduce(BigDecimal.ZERO, BigDecimal::add); // Sum the prices
     }
 }
