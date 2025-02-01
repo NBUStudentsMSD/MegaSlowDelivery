@@ -25,10 +25,6 @@ public class ReportsService {
     @Autowired
     private PackageRepository packageRepository;
 
-    /**
-     * За всеки служител да кажем колко пакети е "обработил".
-     * Обработил = пакет, чийто courierId съвпада с userId на служителя.
-     */
     public List<EmployeePerformanceDTO> getEmployeePerformanceReports() {
         // 1) Вземаме всички служители
         List<Employee> employees = employeeRepository.findAll();
