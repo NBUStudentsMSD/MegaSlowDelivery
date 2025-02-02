@@ -10,6 +10,9 @@ import org.springframework.security.authentication.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -48,7 +51,10 @@ public class AuthController {
         // Генерираме JWT токен
         String token = jwtUtils.generateToken(userDTO.getUsername());
 
-        return ResponseEntity.ok("Bearer " + token);
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/logout")

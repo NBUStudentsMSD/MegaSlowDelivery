@@ -114,5 +114,10 @@ public class EmployeeService {
     public void deleteEmployee(Long id) {
         employeeRepository.deleteById(id);
     }
+
+    public List<Employee> getCouriersByCompany(Long companyId) {
+        List<Employee> couriers = employeeRepository.findByCompanyId(companyId).stream().filter(employee -> employee.getEmployeeType() == EmployeeType.COURIER).toList();
+        return couriers;
+    }
 }
 

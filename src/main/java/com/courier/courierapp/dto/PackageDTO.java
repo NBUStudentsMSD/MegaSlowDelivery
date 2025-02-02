@@ -17,7 +17,7 @@ public class PackageDTO {
         private BigDecimal price;
         private PackageStatus status;
         private LocalDateTime createdAt;
-        private Long company_id; // Explicitly named as company_id
+        private Long companyId; // Explicitly named as company_id
     private Long deliveryFeeId;  // Add this field in PackageDTO
 
         // Getters and Setters
@@ -111,12 +111,12 @@ public class PackageDTO {
             this.createdAt = createdAt;
         }
 
-        public Long getCompany_id() {
-            return company_id;
+        public Long getCompanyId() {
+            return companyId;
         }
 
-        public void setCompany_id(Long company_id) {
-            this.company_id = company_id;
+        public void setCompanyId(Long companyId) {
+            this.companyId = companyId;
         }
     }
 

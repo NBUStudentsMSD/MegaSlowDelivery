@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class RevenueService {
@@ -88,6 +90,15 @@ public class RevenueService {
     public BigDecimal calculateRevenueFromPackage(Package pack) {
         // Можеш да внедриш сложна логика тук за изчисляване на приходите
         return pack.getPrice(); // Пример: Цена на пакета като приход.
+    }
+
+    public Map<LocalDate, BigDecimal> getRevenuesSumByDateRange(LocalDate from, LocalDate to, Long companyId) {
+        List<Revenue> revenues = revenueRepository.findByRecordDateBetween(from, to);
+        return revenues.stream().filter(revenue -> revenue.getCompany_id().equals(companyId))
+                .collect(Collectors.groupingBy(
+                        Revenue::getRecordDate,
+                        Collectors.reducing(BigDecimal.ZERO, Revenue::getAmount, BigDecimal::add)
+                ));
     }
 }
 

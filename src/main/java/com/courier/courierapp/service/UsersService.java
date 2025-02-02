@@ -35,20 +35,22 @@ public class UsersService {
 
     public Users createUser(UserDTO dto) {
         // 1) Намираме компания
-        Company company = companyRepository.findById(dto.getCompany_id())
-                .orElseThrow(() -> new RuntimeException("Company not found with ID: " + dto.getCompany_id()));
+        Company company = null;
+        if(dto.getCompany_id() != null) {
+            company = companyRepository.findById(dto.getCompany_id())
+                    .orElseThrow(() -> new RuntimeException("Company not found with ID: " + dto.getCompany_id()));
+        }
 
         // 2) Създаваме Users
         Users user = new Users();
         user.setUsername(dto.getUsername());
         user.setPassword(dto.getPassword());
         user.setRole(dto.getRole());
-        user.setCompany(company);
 
         Users savedUser = usersRepository.save(user);
 
         // Създаване на Client
-        if (dto.getRole() == Role.CLIENT) {
+        if (dto.getRole() == Role.CLIENT && company != null) {
             Client client = new Client();
             client.setUser(savedUser);
             client.setCompany(company);
@@ -56,7 +58,7 @@ public class UsersService {
         }
 
         // Създаване на Employee
-        if (dto.getRole() == Role.EMPLOYEE) {
+        if (dto.getRole() == Role.EMPLOYEE && company != null) {
             if (dto.getOffice_id() == null) {
                 throw new RuntimeException("office_id is required for EMPLOYEE");
             }
@@ -67,6 +69,7 @@ public class UsersService {
             employee.setUser(savedUser);
             employee.setCompany(company);
             employee.setOffice(office);
+            employee.setEmployeeType(dto.getEmployeeType());
             employeeRepository.save(employee);
         }
 
@@ -76,19 +79,13 @@ public class UsersService {
     //update an existing user
     public Users updateUser(Long id, UserDTO updatedUser) {
         return usersRepository.findById(id).map(user -> {
-            Company company = companyRepository.findById(updatedUser.getCompany_id())
-                    .orElseThrow(() -> new RuntimeException("Company not found with ID: " + updatedUser.getCompany_id()));
             user.setUsername(updatedUser.getUsername());
             user.setPassword(updatedUser.getPassword());
             user.setRole(updatedUser.getRole());
-            user.setCompany(company);
             return usersRepository.save(user);
         }).orElse(null);
     }
 
-    public List<Users> getUsersByCompany(Long companyId) {
-        return usersRepository.findByCompanyId(companyId);
-    }
 
     //delete a user
     public void deleteUser(Long id) {

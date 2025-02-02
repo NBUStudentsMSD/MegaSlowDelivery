@@ -22,6 +22,19 @@ public class Employee {
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 
+    @Enumerated(EnumType.STRING)
+    @JoinColumn(name = "employee_type", nullable = false)
+    private EmployeeType employeeType;
+
+    public EmployeeType getEmployeeType() {
+        return employeeType;
+    }
+
+    public void setEmployeeType(EmployeeType employeeType) {
+        this.employeeType = employeeType;
+    }
+
+
     public Long getId() {
         return id;
     }

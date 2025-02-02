@@ -17,4 +17,6 @@ public interface PackageRepository extends JpaRepository<Package, Long> {
     List<Package> findByStatus(PackageStatus status);
     List<Package> findByCompanyId(Long companyId);
     List<Package> findByCompanyIdAndCreatedAtBetween(Long companyId, LocalDateTime startDate, LocalDateTime endDate);
+    List<Package> findBySenderId(Long senderId);
+    List<Package> findByRecipientId(Long recipientId);
 }

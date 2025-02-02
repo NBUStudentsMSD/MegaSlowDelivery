@@ -71,4 +71,8 @@ public class ClientService {
         // Изтриваме свързания users ред
         usersRepository.deleteById(userId);
     }
+
+    public List<Client> getClientsByCompany(Long companyId) {
+        return clientRepository.findByCompanyId(companyId);
+    }
 }

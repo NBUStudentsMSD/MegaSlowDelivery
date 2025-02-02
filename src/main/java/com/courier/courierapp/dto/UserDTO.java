@@ -1,6 +1,8 @@
 package com.courier.courierapp.dto;
 
+import com.courier.courierapp.model.EmployeeType;
 import com.courier.courierapp.model.Role;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,8 +19,18 @@ public class UserDTO implements java.io.Serializable {
     @Enumerated
     private Role role;
 
+    @Nullable
     private Long company_id;
     private Long office_id;
+
+    private EmployeeType employeeType;
+
+    public EmployeeType getEmployeeType() {
+        return employeeType;
+    }
+    public void setEmployeeType(EmployeeType employeeType) {
+        this.employeeType = employeeType;
+    }
 
     public String getUsername() {
         return username;

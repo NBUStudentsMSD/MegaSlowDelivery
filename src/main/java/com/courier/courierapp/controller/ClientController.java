@@ -103,5 +103,9 @@ public class ClientController {
         return usersRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found: " + username));
     }
+    @GetMapping("/company/{companyId}")
+    public List<Client> getClientsByCompany(@PathVariable Long companyId) {
+        return clientService.getClientsByCompany(companyId);
+    }
 }
 

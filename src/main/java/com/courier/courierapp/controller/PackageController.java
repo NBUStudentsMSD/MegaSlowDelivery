@@ -41,16 +41,30 @@ public class PackageController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/guest/{id}")
     public ResponseEntity<Package> getPackageById(@PathVariable Long id) {
         return packageService.getPackageById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/companypackages")
+    @GetMapping("/company")
     public List<Package> getAllPackagesForEmployeeCompany() {
         return packageService.getAllPackagesByCompanyForEmployee();
+    }
+
+    @GetMapping("/company/{id}")
+    public List<Package> getAllPackagesByCompany(@PathVariable Long id) {
+        return packageService.getAllPackagesByCompany(id);
+    }
+
+    @GetMapping("/recipient/{id}")
+    public List<Package> getAllPackagesByRecipient(@PathVariable Long id) {
+        return packageService.getAllPackagesByRecipient(id);
+    }
+    @GetMapping("/sender/{id}")
+    public List<Package> getAllPackagesBySender(@PathVariable Long id) {
+        return packageService.getAllPackagesBySender(id);
     }
 
 

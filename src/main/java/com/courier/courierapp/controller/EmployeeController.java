@@ -2,11 +2,17 @@ package com.courier.courierapp.controller;
 
 import com.courier.courierapp.dto.EmployeeDTO;
 import com.courier.courierapp.model.Employee;
+import com.courier.courierapp.model.Role;
+import com.courier.courierapp.model.Users;
+import com.courier.courierapp.repository.EmployeeRepository;
 import com.courier.courierapp.repository.OfficeRepository;
 import com.courier.courierapp.repository.UsersRepository;
 import com.courier.courierapp.service.EmployeeService;
+import com.courier.courierapp.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +25,12 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
+    @Autowired
+    private UsersService usersService;
+    @Autowired
+    private UsersRepository usersRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
 
     // Get all employees
@@ -101,7 +113,23 @@ public class EmployeeController {
     }
     @GetMapping("/company/{companyId}")
     public List<Employee> getEmployeesByCompany(@PathVariable Long companyId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Users currentUser = usersRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found: " + username));
+        if(currentUser.getRole() == Role.EMPLOYEE){
+            Employee employee = employeeRepository.findByUserId(currentUser.getId())
+                    .orElseThrow(() -> new RuntimeException("Employee not found"));
+
+            if(employee.getCompany().getId() != companyId){
+                throw new RuntimeException("You are not allowed to see employees from other companies");
+            }
+        }
         return employeeService.getEmployeesByCompany(companyId);
+    }
+    @GetMapping("/company/courier/{companyId}")
+    public List<Employee> getCouriersByCompany(@PathVariable Long companyId) {
+        return employeeService.getCouriersByCompany(companyId);
     }
 
     // Delete an employee

@@ -16,13 +16,10 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @JoinColumn(name = "username", nullable = false, unique = true)
     private String username;
 
     private String password;
-
-    @ManyToOne
-    @JoinColumn(name = "company_id", nullable = false)
-    private Company company;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -61,14 +58,6 @@ public class Users {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
     }
 
     public Role getRole() {
