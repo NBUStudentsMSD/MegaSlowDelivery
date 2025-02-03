@@ -60,6 +60,7 @@ public class UsersController {
                 response.put("username", user.getUsername());
                 response.put("user_id", user.getId());
                 response.put("role", user.getRole());
+                response.put("emp_type", employee.getEmployeeType());
 
 
                 return ResponseEntity.ok(response);
